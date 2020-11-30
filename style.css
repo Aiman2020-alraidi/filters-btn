@@ -54,14 +54,18 @@ header > span {
 /* btn-containers */
 .btn-containers {
   text-align: center;
+  width: 460px;
+  margin: 0 auto;
 }
 
 .btns {
   background-color: rgb(165, 42, 42);
   color: #fff;
-  padding: 6px 20px;
+  padding: 6px 10px;
+  margin-right: 10px;
   margin-bottom: 30px;
   cursor: pointer;
+  border: 1px solid brown;
 }
 
 .btns:hover {

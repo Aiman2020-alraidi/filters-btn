@@ -2,7 +2,7 @@ const menu = [
   {
     title: "Buttermilk Pancakes",
     price: 15.99,
-    category: "brreakfast",
+    category: "breakfast",
     img: "./images/img-1.jpeg",
     message:
       "I'm baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed",
@@ -81,29 +81,49 @@ const menu = [
   },
 ];
 const sectionCenter = document.querySelector(".section-center");
-const filterBtns = document.querySelectorAll(".btns");
+const btnContainers = document.querySelector(".btn-containers");
 
 // loading items
 window.addEventListener("DOMContentLoaded", () => {
   menuItems(menu);
+
+  // with reduce
+  const categiries = menu.reduce(
+    (values, item) => {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
+      }
+      return values;
+    },
+    ["all"]
+  );
+
+  btnContainers.innerHTML = categiries
+    .map((items) => {
+      return ` <button class="btns" data-id="${items}">${items}</button>`;
+    })
+    .join("");
+  const filterBtns = document.querySelectorAll(".btns");
+  console.log(filterBtns);
+  filterBtns.forEach((btns) => {
+    btns.addEventListener("click", (e) => {
+      const category = e.currentTarget.dataset.id;
+      const filtering = menu.filter((filterElemen) => {
+        if (filterElemen.category === category) {
+          return filterElemen;
+        }
+      });
+      console.log(filtering);
+      if (category === "all") {
+        menuItems(menu);
+      } else {
+        menuItems(filtering);
+      }
+    });
+  });
 });
 
 // filterBtn
-filterBtns.forEach((btns) => {
-  btns.addEventListener("click", (e) => {
-    const category = e.currentTarget.dataset.id;
-    const meunCategory = menu.filter((menuItem) => {
-      if (menuItem.category === category) {
-        return menuItem;
-      }
-    });
-    if (category === "all") {
-      menuItems(menu);
-    } else {
-      menuItems(meunCategory);
-    }
-  });
-});
 
 const menuItems = (item) => {
   let menuCatigories = item.map((items) => {
