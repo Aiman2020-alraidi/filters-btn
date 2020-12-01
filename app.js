@@ -87,44 +87,44 @@ const btnContainers = document.querySelector(".btn-containers");
 window.addEventListener("DOMContentLoaded", () => {
   menuItems(menu);
 
-  // with reduce
-  const categiries = menu.reduce(
-    (values, item) => {
-      if (!values.includes(item.category)) {
-        values.push(item.category);
+  // make unique btns by reduce
+  const uniqueBtn = menu.reduce(
+    (values, items) => {
+      if (!values.includes(items.category)) {
+        values.push(items.category);
       }
       return values;
     },
     ["all"]
   );
 
-  btnContainers.innerHTML = categiries
-    .map((items) => {
-      return ` <button class="btns" data-id="${items}">${items}</button>`;
+  // make btns in the screen
+  btnContainers.innerHTML = uniqueBtn
+    .map((btns) => {
+      return `<button class="btns" data-id="${btns}">${btns}</button>`;
     })
     .join("");
-  const filterBtns = document.querySelectorAll(".btns");
-  console.log(filterBtns);
-  filterBtns.forEach((btns) => {
-    btns.addEventListener("click", (e) => {
-      const category = e.currentTarget.dataset.id;
-      const filtering = menu.filter((filterElemen) => {
-        if (filterElemen.category === category) {
-          return filterElemen;
-        }
+
+  // selected all the buttons and starts filtering
+  const filterMenu = document.querySelectorAll(".btns");
+  filterMenu.forEach((menuBtns) => {
+    menuBtns.addEventListener("click", (e) => {
+      const menus = e.currentTarget.dataset.id;
+      console.log(menus);
+      const filtersMenu = menu.filter((filterItems) => {
+        return filterItems.category === menus;
       });
-      console.log(filtering);
-      if (category === "all") {
+      console.log(filtersMenu);
+      if (menus === "all") {
         menuItems(menu);
       } else {
-        menuItems(filtering);
+        menuItems(filtersMenu);
       }
     });
   });
 });
 
-// filterBtn
-
+// makes our menu in the screen
 const menuItems = (item) => {
   let menuCatigories = item.map((items) => {
     return ` 
@@ -142,5 +142,6 @@ const menuItems = (item) => {
         </article>
       `;
   });
+  // print our menu in the div section-center
   sectionCenter.innerHTML = menuCatigories.join("");
 };
